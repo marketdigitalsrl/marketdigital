@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+const valori = [
+  { t: 'Un solo referente', d: 'Parli sempre con la stessa persona, che conosce la tua attività e coordina tutto il lavoro.' },
+  { t: 'Parole semplici', d: 'Ti spieghiamo cosa facciamo e perché, senza gergo tecnico e senza report incomprensibili.' },
+  { t: 'Risultati misurabili', d: 'Fissiamo obiettivi concreti all’inizio e li verifichiamo insieme ogni mese.' },
+];
+---
+<Base title="Chi siamo" description="Market Digital è una consulenza di marketing online a 360 gradi per aziende e professionisti.">
+  <header class="page-head">
+    <div class="wrap">
+      <h1>Chi siamo</h1>
+      <p>Una squadra di consulenti digitali che segue il tuo marketing online come se fosse il proprio.</p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap about">
+      <div class="prose">
+        <p>Market Digital nasce da un’idea semplice: le aziende non hanno bisogno di un fornitore per i social, uno per la pubblicità e un altro per il sito. Hanno bisogno di qualcuno che guardi tutto insieme e faccia lavorare ogni canale nella stessa direzione.</p>
+        <p>Per questo lavoriamo come consulenti a 360 gradi. Partiamo dagli obiettivi della tua attività, costruiamo un piano su misura e lo seguiamo passo dopo passo, adattandolo a quello che dicono i numeri.</p>
+        <p>Lavoriamo con piccole e medie imprese, professionisti e negozi che vogliono crescere online con un partner affidabile, senza perdersi tra tecnicismi.</p>
+      </div>
+      <ul class="valori">
+        {valori.map((v) => (<li><h2>{v.t}</h2><p>{v.d}</p></li>))}
+      </ul>
+    </div>
+  </section>
+</Base>
+<style>
+  .about { display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+  .valori { list-style: none; margin: 0; padding: 2rem; background: var(--sky); border-radius: 20px; display: grid; gap: 1.75rem; }
+  .valori h2 { font-size: 1.35rem; margin-bottom: .35rem; color: var(--cobalt-deep); }
+  .valori p { color: var(--ink); }
+  @media (max-width: 860px) { .about { grid-template-columns: 1fr; } }
+</style>

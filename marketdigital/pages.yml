@@ -1,0 +1,55 @@
+# Configurazione del pannello Pages CMS (https://app.pagescms.org)
+media:
+  input: public/images
+  output: /images
+
+content:
+  - name: blog
+    label: Articoli del blog
+    type: collection
+    path: src/content/blog
+    filename: "{primary}.md"
+    view:
+      fields: [title, date, draft]
+      sort: [date]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Titolo
+        type: string
+        required: true
+      - name: description
+        label: Riassunto (2 righe, compare nell'elenco e su Google)
+        type: text
+      - name: date
+        label: Data di pubblicazione
+        type: date
+        required: true
+      - name: image
+        label: Immagine di copertina
+        type: image
+        options:
+          path: public/images/blog
+      - name: draft
+        label: Bozza (se attivo, l'articolo non compare sul sito)
+        type: boolean
+        default: false
+      - name: body
+        label: Testo dell'articolo
+        type: rich-text
+
+  - name: contatti
+    label: Contatti e social
+    type: file
+    path: src/data/sito.json
+    fields:
+      - { name: email, label: Email, type: string }
+      - { name: telefono, label: Telefono, type: string }
+      - { name: whatsapp, label: "WhatsApp (solo numeri, con prefisso: 39333...)", type: string }
+      - { name: indirizzo, label: Indirizzo, type: string }
+      - { name: partitaIva, label: Partita IVA, type: string }
+      - { name: instagram, label: Link Instagram, type: string }
+      - { name: linkedin, label: Link LinkedIn, type: string }
+      - { name: facebook, label: Link Facebook, type: string }

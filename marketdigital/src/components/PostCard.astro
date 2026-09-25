@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { post: CollectionEntry<'blog'> }
+const { post } = Astro.props;
+const data = post.data.date.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<article class="post">
+  <a href={`/blog/${post.id}/`}>
+    {post.data.image
+      ? <img src={post.data.image} alt="" loading="lazy" />
+      : <div class="ph" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="18" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="32" cy="14" r="6" fill="#FFC53D"/></svg></div>}
+    <time datetime={post.data.date.toISOString()}>{data}</time>
+    <h3>{post.data.title}</h3>
+    {post.data.description && <p>{post.data.description}</p>}
+  </a>
+</article>
+<style>
+  .post a { display: flex; flex-direction: column; gap: .6rem; text-decoration: none; height: 100%; }
+  .post img, .ph { aspect-ratio: 16 / 10; width: 100%; object-fit: cover; border-radius: 14px; background: var(--sky); }
+  .ph { display: grid; place-items: center; color: var(--cobalt); }
+  .ph svg { width: 22%; }
+  time { font-size: .9rem; color: var(--muted); margin-top: .4rem; }
+  h3 { transition: color .15s; }
+  .post a:hover h3 { color: var(--cobalt); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 2px; }
+  p { color: var(--muted); font-size: 1rem; }
+</style>

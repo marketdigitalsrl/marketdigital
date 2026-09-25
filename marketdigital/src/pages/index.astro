@@ -1,0 +1,147 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PostCard from '../components/PostCard.astro';
+import { servizi } from '../data/servizi';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const anello = servizi.map((s) => s.nome).join('  +  ') + '  +  ';
+const passi = [
+  { t: 'Ascoltiamo', d: 'Una prima chiacchierata per conoscere te, i tuoi clienti e cosa non sta funzionando.' },
+  { t: 'Pianifichiamo', d: 'Ti presentiamo una proposta concreta: canali, attività, budget e risultati attesi.' },
+  { t: 'Realizziamo', d: 'Mettiamo in pratica il piano. Hai un referente unico che segue tutto.' },
+  { t: 'Misuriamo', d: 'Ogni mese guardiamo insieme i numeri e decidiamo come migliorare.' },
+];
+---
+<Base>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <h1>Tutto il tuo marketing online, in un’unica squadra.</h1>
+        <p class="hero-lead">Market Digital è una consulenza di marketing digitale a 360 gradi. Strategia, social, pubblicità, SEO e siti web seguiti dalle stesse persone, dall’inizio alla fine.</p>
+        <div class="hero-cta">
+          <a class="btn btn-light" href="/contatti/">Richiedi una consulenza</a>
+          <a class="btn btn-ghost" href="/servizi/">Scopri i servizi</a>
+        </div>
+      </div>
+      <div class="ring-wrap" aria-hidden="true">
+        <svg class="ring" viewBox="0 0 400 400">
+          <defs>
+            <path id="cerchio" d="M200,200 m-160,0 a160,160 0 1,1 320,0 a160,160 0 1,1 -320,0" />
+          </defs>
+          <circle cx="200" cy="200" r="128" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5" />
+          <g class="spin">
+            <text><textPath href="#cerchio" textLength="1005" lengthAdjust="spacingAndGlyphs">{anello}</textPath></text>
+          </g>
+          <circle class="dot" cx="200" cy="72" r="11" />
+          <text class="deg" x="200" y="222" text-anchor="middle">360°</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap services">
+      <div class="services-intro">
+        <h2>Cosa facciamo</h2>
+        <p class="lead">Non devi coordinare cinque fornitori diversi. Ci occupiamo di ogni parte della tua presenza online e la facciamo lavorare insieme.</p>
+        <a class="btn btn-primary" href="/servizi/">Tutti i servizi nel dettaglio</a>
+      </div>
+      <ul class="service-list">
+        {servizi.map((s) => (
+          <li>
+            <h3>{s.nome}</h3>
+            <p>{s.breve}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section method">
+    <div class="wrap">
+      <h2>Come lavoriamo</h2>
+      <ol class="steps">
+        {passi.map((p, i) => (
+          <li>
+            <span class="n">{i + 1}</span>
+            <h3>{p.t}</h3>
+            <p>{p.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {posts.length > 0 && (
+    <section class="section">
+      <div class="wrap">
+        <div class="blog-head">
+          <h2>Dal blog</h2>
+          <a href="/blog/">Leggi tutti gli articoli</a>
+        </div>
+        <div class="posts">
+          {posts.map((post) => <PostCard post={post} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="cta">
+    <div class="wrap cta-inner">
+      <h2>Parliamo della tua attività</h2>
+      <p>Raccontaci a che punto sei. Ti diciamo con sincerità da dove partire e cosa ha senso fare.</p>
+      <a class="btn btn-light" href="/contatti/">Contattaci</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { background: var(--cobalt); color: var(--white); padding-block: clamp(3rem, 7vw, 5.5rem) clamp(4rem, 9vw, 7rem); overflow: hidden; }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .hero-lead { margin-top: 1.5rem; font-size: clamp(1.1rem, 1.6vw, 1.3rem); color: #D3DAFF; max-width: 34rem; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2.25rem; }
+
+  .ring-wrap { width: 100%; max-width: 30rem; justify-self: center; }
+  .ring { width: 100%; height: auto; overflow: visible; }
+  .ring textPath { font-family: var(--display); font-weight: 600; font-size: 17px; fill: var(--white); }
+  .spin { transform-origin: 200px 200px; animation: giro 70s linear infinite; }
+  .dot { fill: var(--sun); }
+  .deg { font-family: var(--display); font-weight: 800; font-size: 74px; letter-spacing: -0.04em; fill: var(--white); }
+  @keyframes giro { to { transform: rotate(360deg); } }
+
+  .services { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+  .services-intro { position: sticky; top: 2rem; display: grid; gap: 1.5rem; justify-items: start; }
+  .service-list { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--ink); }
+  .service-list li { display: grid; grid-template-columns: 14rem 1fr; gap: 1.5rem; padding-block: 1.5rem; border-bottom: 1px solid var(--line); }
+  .service-list p { color: var(--muted); }
+
+  .method { background: var(--white); }
+  .steps { list-style: none; margin: 3rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+  .steps li { display: grid; gap: .75rem; align-content: start; }
+  .n { width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 2px solid var(--cobalt); color: var(--cobalt); display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 1.15rem; }
+  .steps p { color: var(--muted); }
+
+  .blog-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+  .blog-head a { color: var(--cobalt); font-weight: 600; text-underline-offset: 4px; }
+  .posts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+
+  .cta { background: var(--cobalt); color: var(--white); padding-block: clamp(4rem, 8vw, 6rem); }
+  .cta-inner { display: grid; gap: 1.25rem; justify-items: start; }
+  .cta p { color: #D3DAFF; font-size: 1.2rem; max-width: 36rem; margin-bottom: .75rem; }
+
+  @media (max-width: 900px) {
+    .hero-grid, .services { grid-template-columns: 1fr; }
+    .ring-wrap { max-width: 20rem; justify-self: start; }
+    .services-intro { position: static; }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .posts { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .service-list li { grid-template-columns: 1fr; gap: .4rem; }
+    .steps, .posts { grid-template-columns: 1fr; }
+  }
+</style>

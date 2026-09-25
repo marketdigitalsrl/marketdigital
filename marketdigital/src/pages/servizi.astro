@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import { servizi } from '../data/servizi';
+---
+<Base title="Servizi" description="Strategia digitale, social media, advertising, SEO, siti web, contenuti e analisi dei dati: tutti i servizi di Market Digital.">
+  <header class="page-head">
+    <div class="wrap">
+      <h1>Servizi</h1>
+      <p>Puoi affidarci tutto o solo una parte. In entrambi i casi guardiamo sempre al quadro completo.</p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap">
+      <ul class="list">
+        {servizi.map((s) => (
+          <li>
+            <h2>{s.nome}</h2>
+            <div>
+              <p class="breve">{s.breve}</p>
+              <p>{s.lungo}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div class="end">
+        <p>Non sai da quale servizio partire? È normale, ed è proprio il primo lavoro che facciamo insieme.</p>
+        <a class="btn btn-primary" href="/contatti/">Richiedi una consulenza</a>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .list { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--ink); }
+  .list li { display: grid; grid-template-columns: 1fr 1.4fr; gap: 2rem; padding-block: 2.5rem; border-bottom: 1px solid var(--line); }
+  .list h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+  .breve { font-weight: 600; font-size: 1.2rem; margin-bottom: .75rem; }
+  .list p:not(.breve) { color: var(--muted); max-width: 36rem; }
+  .end { margin-top: 4rem; display: grid; gap: 1.5rem; justify-items: start; }
+  .end p { font-size: 1.3rem; max-width: 36rem; font-family: var(--display); font-weight: 600; line-height: 1.3; }
+  @media (max-width: 760px) { .list li { grid-template-columns: 1fr; gap: .75rem; } }
+</style>

@@ -1,0 +1,39 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const data = post.data.date.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<Base title={post.data.title} description={post.data.description || undefined} image={post.data.image}>
+  <article class="section">
+    <div class="wrap art">
+      <a class="back" href="/blog/">Tutti gli articoli</a>
+      <time datetime={post.data.date.toISOString()}>{data}</time>
+      <h1>{post.data.title}</h1>
+      {post.data.description && <p class="lead">{post.data.description}</p>}
+      {post.data.image && <img class="cover" src={post.data.image} alt="" />}
+      <div class="prose"><Content /></div>
+      <div class="end">
+        <p>Vuoi applicare queste idee alla tua attività?</p>
+        <a class="btn btn-primary" href="/contatti/">Parliamone</a>
+      </div>
+    </div>
+  </article>
+</Base>
+<style>
+  .art { max-width: 50rem; }
+  .back { color: var(--cobalt); font-weight: 600; text-underline-offset: 4px; }
+  time { display: block; margin-top: 2.5rem; color: var(--muted); }
+  h1 { font-size: clamp(2.1rem, 5vw, 3.4rem); margin-top: .5rem; }
+  .lead { margin-top: 1.25rem; }
+  .cover { margin-block: 2.5rem; border-radius: 18px; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  .prose { margin-top: 2.5rem; }
+  .end { margin-top: 4rem; padding: 2rem; background: var(--sky); border-radius: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+  .end p { font-family: var(--display); font-weight: 700; font-size: 1.3rem; }
+</style>

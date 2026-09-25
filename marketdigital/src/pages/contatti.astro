@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import sito from '../data/sito.json';
+const tel = sito.telefono.replace(/\s/g, '');
+const wa = `https://wa.me/${sito.whatsapp}?text=${encodeURIComponent('Ciao Market Digital, vorrei qualche informazione.')}`;
+const mail = `mailto:${sito.email}?subject=${encodeURIComponent('Richiesta consulenza dal sito')}`;
+---
+<Base title="Contatti" description="Contatta Market Digital per una consulenza di marketing online.">
+  <header class="page-head">
+    <div class="wrap">
+      <h1>Contatti</h1>
+      <p>Scrivici come preferisci. Raccontaci la tua attività e cosa vorresti ottenere online.</p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap canali">
+      <a class="canale" href={mail}>
+        <h2>Email</h2>
+        <p>{sito.email}</p>
+        <span class="azione">Scrivi un’email</span>
+      </a>
+      {sito.whatsapp && (
+        <a class="canale" href={wa} target="_blank" rel="noopener">
+          <h2>WhatsApp</h2>
+          <p>Il modo più veloce per una prima domanda.</p>
+          <span class="azione">Apri la chat</span>
+        </a>
+      )}
+      <a class="canale" href={`tel:${tel}`}>
+        <h2>Telefono</h2>
+        <p>{sito.telefono}</p>
+        <span class="azione">Chiama</span>
+      </a>
+    </div>
+    <div class="wrap dove">
+      <h2>Dove siamo</h2>
+      <p>{sito.indirizzo}</p>
+    </div>
+  </section>
+</Base>
+<style>
+  .canali { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .canale { display: flex; flex-direction: column; gap: .5rem; padding: 2rem; border-radius: 20px; background: var(--white); border: 2px solid var(--line); text-decoration: none; transition: border-color .15s; }
+  .canale:hover { border-color: var(--cobalt); }
+  .canale p { color: var(--muted); flex: 1; overflow-wrap: anywhere; }
+  .azione { margin-top: 1rem; font-weight: 600; color: var(--cobalt); }
+  .dove { margin-top: 4rem; display: grid; gap: .5rem; }
+  .dove h2 { font-size: 1.6rem; }
+  .dove p { color: var(--muted); font-size: 1.15rem; }
+  @media (max-width: 860px) { .canali { grid-template-columns: 1fr; } }
+</style>

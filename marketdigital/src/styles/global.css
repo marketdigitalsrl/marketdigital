@@ -1,0 +1,83 @@
+:root {
+  --ink: #141A33;
+  --paper: #F6F7FB;
+  --white: #FFFFFF;
+  --cobalt: #2B3FE0;
+  --cobalt-deep: #1C2AA8;
+  --sky: #E3E8FF;
+  --sun: #FFC53D;
+  --muted: #5A6180;
+  --line: #D7DCEC;
+
+  --display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --body: 'Instrument Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  --wrap: 72rem;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; border-radius: 4px; }
+
+h1, h2, h3 {
+  font-family: var(--display);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0;
+  font-weight: 700;
+}
+h1 { font-size: clamp(2.5rem, 6.4vw, 4.75rem); font-weight: 800; }
+h2 { font-size: clamp(1.9rem, 3.8vw, 2.9rem); }
+h3 { font-size: 1.35rem; letter-spacing: -0.01em; }
+p { margin: 0; }
+
+.wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: var(--gutter); }
+.section { padding-block: clamp(4rem, 9vw, 7rem); }
+.lead { font-size: clamp(1.1rem, 1.6vw, 1.3rem); max-width: 38rem; color: var(--muted); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .9rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid transparent;
+  transition: background-color .15s, color .15s, border-color .15s;
+}
+.btn-primary { background: var(--cobalt); color: var(--white); }
+.btn-primary:hover { background: var(--cobalt-deep); }
+.btn-light { background: var(--white); color: var(--cobalt-deep); }
+.btn-light:hover { background: var(--sky); }
+.btn-ghost { border-color: currentColor; }
+.btn-ghost:hover { background: rgba(255,255,255,.12); }
+
+/* Intestazione pagine interne */
+.page-head { background: var(--cobalt); color: var(--white); padding-block: clamp(3.5rem, 8vw, 6rem) clamp(3rem, 6vw, 4.5rem); }
+.page-head p { color: #D3DAFF; margin-top: 1.25rem; max-width: 40rem; font-size: 1.2rem; }
+
+/* Testo lungo (articoli, pagine) */
+.prose { max-width: 42rem; font-size: 1.125rem; line-height: 1.75; }
+.prose > * + * { margin-top: 1.25em; }
+.prose h2 { font-size: 1.8rem; margin-top: 2em; }
+.prose h3 { font-size: 1.35rem; margin-top: 1.75em; }
+.prose a { color: var(--cobalt); text-underline-offset: 3px; }
+.prose img { border-radius: 12px; }
+.prose ul, .prose ol { padding-left: 1.25em; }
+.prose li + li { margin-top: .4em; }
+.prose blockquote { margin: 1.5em 0; padding-left: 1.25rem; border-left: 4px solid var(--cobalt); color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,120 @@
+---
+import '../styles/global.css';
+import sito from '../data/sito.json';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string | null;
+}
+const {
+  title,
+  description = 'Market Digital: consulenza di marketing online a 360 gradi. Strategia, social, advertising, SEO, siti web e contenuti seguiti da un’unica squadra.',
+  image,
+} = Astro.props;
+
+const fullTitle = title ? `${title} | Market Digital` : 'Market Digital | Consulenza di marketing online a 360°';
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image ? new URL(image, Astro.site).href : undefined;
+const path = Astro.url.pathname;
+
+const nav = [
+  { href: '/servizi/', label: 'Servizi' },
+  { href: '/chi-siamo/', label: 'Chi siamo' },
+  { href: '/blog/', label: 'Blog' },
+  { href: '/contatti/', label: 'Contatti' },
+];
+const isActive = (href: string) => path.startsWith(href);
+const anno = new Date().getFullYear();
+---
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:locale" content="it_IT" />
+  {ogImage && <meta property="og:image" content={ogImage} />}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <a class="skip" href="#contenuto">Vai al contenuto</a>
+
+  <header class="site-header">
+    <div class="wrap bar">
+      <a href="/" class="logo" aria-label="Market Digital, home">
+        <svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><circle cx="32" cy="32" r="21" fill="none" stroke="currentColor" stroke-width="7"/><circle cx="32" cy="11" r="7.5" fill="#FFC53D"/></svg>
+        <span>Market Digital</span>
+      </a>
+      <nav aria-label="Principale">
+        <ul class="nav">
+          {nav.map((n) => (
+            <li><a href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenuto">
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap foot">
+      <div>
+        <p class="foot-name">Market Digital</p>
+        <p>Consulenza di marketing online a 360°.</p>
+      </div>
+      <div>
+        <p><a href={`mailto:${sito.email}`}>{sito.email}</a></p>
+        <p><a href={`tel:${sito.telefono.replace(/\s/g, '')}`}>{sito.telefono}</a></p>
+        <p>{sito.indirizzo}</p>
+      </div>
+      <div class="social">
+        {sito.instagram && <a href={sito.instagram} rel="noopener" target="_blank">Instagram</a>}
+        {sito.linkedin && <a href={sito.linkedin} rel="noopener" target="_blank">LinkedIn</a>}
+        {sito.facebook && <a href={sito.facebook} rel="noopener" target="_blank">Facebook</a>}
+      </div>
+    </div>
+    <div class="wrap legal">
+      <p>© {anno} Market Digital. P.IVA {sito.partitaIva}</p>
+    </div>
+  </footer>
+</body>
+</html>
+
+<style>
+  .skip { position: absolute; left: -999px; top: .5rem; background: var(--sun); color: var(--ink); padding: .5rem 1rem; border-radius: 8px; z-index: 10; }
+  .skip:focus { left: .5rem; }
+
+  .site-header { background: var(--cobalt); color: var(--white); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-block: 1.1rem; }
+  .logo { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; font-family: var(--display); font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em; }
+  .nav { list-style: none; display: flex; gap: .25rem; margin: 0; padding: 0; flex-wrap: wrap; }
+  .nav a { display: block; padding: .45rem .85rem; border-radius: 999px; text-decoration: none; font-weight: 500; color: #E3E8FF; }
+  .nav a:hover { color: var(--white); background: rgba(255,255,255,.1); }
+  .nav a[aria-current='page'] { background: var(--white); color: var(--cobalt-deep); }
+
+  .site-footer { background: var(--ink); color: #C9CEE3; padding-top: 3.5rem; font-size: .95rem; }
+  .site-footer a { color: var(--white); text-decoration: none; }
+  .site-footer a:hover { text-decoration: underline; }
+  .foot { display: grid; grid-template-columns: 1.4fr 1.4fr 1fr; gap: 2rem; padding-bottom: 2.5rem; }
+  .foot p + p { margin-top: .35rem; }
+  .foot-name { font-family: var(--display); font-weight: 800; font-size: 1.3rem; color: var(--white); }
+  .social { display: flex; flex-direction: column; gap: .35rem; }
+  .legal { border-top: 1px solid #2A3152; padding-block: 1.25rem; font-size: .85rem; color: #8F96B5; }
+  @media (max-width: 760px) {
+    .foot { grid-template-columns: 1fr; }
+    .nav a { padding: .4rem .7rem; }
+  }
+</style>
