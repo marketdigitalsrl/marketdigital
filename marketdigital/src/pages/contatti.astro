@@ -1,51 +1,35 @@
 ---
 import Base from '../layouts/Base.astro';
 import sito from '../data/sito.json';
-const tel = sito.telefono.replace(/\s/g, '');
-const wa = `https://wa.me/${sito.whatsapp}?text=${encodeURIComponent('Ciao Market Digital, vorrei qualche informazione.')}`;
 const mail = `mailto:${sito.email}?subject=${encodeURIComponent('Richiesta consulenza dal sito')}`;
 ---
 <Base title="Contatti" description="Contatta Market Digital per una consulenza di marketing online.">
   <header class="page-head">
     <div class="wrap">
       <h1>Contatti</h1>
-      <p>Scrivici come preferisci. Raccontaci la tua attività e cosa vorresti ottenere online.</p>
+      <p>Raccontaci la tua attività e cosa vorresti ottenere online. Ti rispondiamo via email.</p>
     </div>
   </header>
   <section class="section">
-    <div class="wrap canali">
-      <a class="canale" href={mail}>
-        <h2>Email</h2>
-        <p>{sito.email}</p>
-        <span class="azione">Scrivi un’email</span>
-      </a>
-      {sito.whatsapp && (
-        <a class="canale" href={wa} target="_blank" rel="noopener">
-          <h2>WhatsApp</h2>
-          <p>Il modo più veloce per una prima domanda.</p>
-          <span class="azione">Apri la chat</span>
-        </a>
+    <div class="wrap contatto">
+      <a class="mail" href={mail}>{sito.email}</a>
+      <p class="hint">Più dettagli ci dai (settore, obiettivi, cosa fai già online), più precisa sarà la nostra risposta.</p>
+      <a class="btn btn-primary" href={mail}>Scrivi un’email</a>
+      {sito.indirizzo && (
+        <div class="dove">
+          <h2>Dove siamo</h2>
+          <p>{sito.indirizzo}</p>
+        </div>
       )}
-      <a class="canale" href={`tel:${tel}`}>
-        <h2>Telefono</h2>
-        <p>{sito.telefono}</p>
-        <span class="azione">Chiama</span>
-      </a>
-    </div>
-    <div class="wrap dove">
-      <h2>Dove siamo</h2>
-      <p>{sito.indirizzo}</p>
     </div>
   </section>
 </Base>
 <style>
-  .canali { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-  .canale { display: flex; flex-direction: column; gap: .5rem; padding: 2rem; border-radius: 20px; background: var(--white); border: 2px solid var(--line); text-decoration: none; transition: border-color .15s; }
-  .canale:hover { border-color: var(--cobalt); }
-  .canale p { color: var(--muted); flex: 1; overflow-wrap: anywhere; }
-  .azione { margin-top: 1rem; font-weight: 600; color: var(--cobalt); }
-  .dove { margin-top: 4rem; display: grid; gap: .5rem; }
+  .contatto { display: grid; gap: 1.5rem; justify-items: start; }
+  .mail { font-family: var(--display); font-weight: 700; font-size: clamp(1.5rem, 4.5vw, 3rem); letter-spacing: -0.02em; color: var(--cobalt); text-decoration: none; overflow-wrap: anywhere; line-height: 1.15; }
+  .mail:hover { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 3px; }
+  .hint { color: var(--muted); max-width: 36rem; font-size: 1.1rem; }
+  .dove { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); width: 100%; display: grid; gap: .5rem; }
   .dove h2 { font-size: 1.6rem; }
   .dove p { color: var(--muted); font-size: 1.15rem; }
-  @media (max-width: 860px) { .canali { grid-template-columns: 1fr; } }
 </style>

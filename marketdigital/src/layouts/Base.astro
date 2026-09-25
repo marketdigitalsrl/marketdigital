@@ -77,8 +77,8 @@ const anno = new Date().getFullYear();
       </div>
       <div>
         <p><a href={`mailto:${sito.email}`}>{sito.email}</a></p>
-        <p><a href={`tel:${sito.telefono.replace(/\s/g, '')}`}>{sito.telefono}</a></p>
-        <p>{sito.indirizzo}</p>
+        {sito.telefono && <p><a href={`tel:${sito.telefono.replace(/\s/g, '')}`}>{sito.telefono}</a></p>}
+        {sito.indirizzo && <p>{sito.indirizzo}</p>}
       </div>
       <div class="social">
         {sito.instagram && <a href={sito.instagram} rel="noopener" target="_blank">Instagram</a>}
